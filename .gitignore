@@ -1,8 +1,13 @@
+# Build & Astro outputs
+dist/
+.astro/
+
 # Logs & Runtime data
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 logs/
 pids/
 *.pid
@@ -44,3 +49,6 @@ Thumbs.db
 # Project-specific / Tooling metadata
 .impeccable/
 .codex/
+
+# Documentation & Markdown files
+*.md

@@ -1,0 +1,34 @@
+---
+import { aboutTraits } from '../data/about';
+---
+
+<section id="about" class="scroll-section scroll-reveal">
+  <div class="about-clean-layout">
+    <div class="section-title-line">
+      <span class="section-tag">// trayectoria</span>
+      <h2>Sobre Mí</h2>
+      <div class="title-line"></div>
+    </div>
+    
+    <div class="about-content">
+      <p class="large-text">
+        Me apasiona convertir ideas complejas en software altamente optimizado, estable y de gran experiencia de usuario.
+      </p>
+      <p class="body-text">
+        Mi enfoque une el desarrollo frontend y backend con prácticas modernas de DevOps. Creo firmemente que el software de calidad no solo debe verse bien, sino estar respaldado por una infraestructura sólida y pruebas automatizadas confiables.
+      </p>
+      
+      <div class="clean-traits-list">
+        {aboutTraits.map(trait => (
+          <div class="clean-trait-row">
+            <span class="trait-num">{trait.number}</span>
+            <div class="trait-info">
+              <h3>{trait.title}</h3>
+              <p>{trait.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

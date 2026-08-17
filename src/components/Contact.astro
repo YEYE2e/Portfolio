@@ -1,0 +1,28 @@
+---
+import { contactLinks } from '../data/contact';
+---
+
+<section id="contact" class="scroll-section scroll-reveal">
+  <div class="contact-clean-layout">
+    <div class="section-title-line">
+      <span class="section-tag">// Conexión</span>
+      <h2>Aquí mis canales de contacto</h2>
+      <div class="title-line"></div>
+    </div>
+      
+    <div class="contact-links-grid">
+      {contactLinks.map(link => (
+        <a
+          href={link.href}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+          class="contact-link-row"
+        >
+          <span class="row-label">{link.label}</span>
+          <span class="row-value">{link.value}</span>
+          <div class="link-hover-line"></div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

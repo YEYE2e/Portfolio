@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AmbientGlow from '../components/AmbientGlow.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<Layout>
+  <!-- Ambient background lighting and interactive lines -->
+  <AmbientGlow />
+
+  <!-- Main Application Wrapper -->
+  <div id="app" class="app-container">
+    <!-- Top Navigation -->
+    <Header />
+
+    <!-- Scrollable Content Canvas -->
+    <main class="console-canvas scroll-flow">
+      <Hero />
+      <About />
+      <Projects />
+      <Contact />
+    </main>
+  </div>
+
+  <!-- Client-side Interactive Logic (TypeScript) -->
+  <script src="../scripts/interactions.ts"></script>
+</Layout>
