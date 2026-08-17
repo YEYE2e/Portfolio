@@ -19,7 +19,10 @@ import { contactLinks } from '../data/contact';
           class="contact-link-row"
         >
           <span class="row-label">{link.label}</span>
-          <span class="row-value">{link.value}</span>
+          <span class="row-value">
+            {link.value}
+            {link.external && <span class="external-arrow" aria-hidden="true"> ↗</span>}
+          </span>
           <div class="link-hover-line"></div>
         </a>
       ))}
