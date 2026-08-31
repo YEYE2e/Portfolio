@@ -662,11 +662,25 @@ body {
   gap: 6px;
 }
 
+/* Evitar detección automática de enlaces y formateo azul de teléfonos/fechas en Safari/Brave iOS */
+a[x-apple-data-detectors],
+.timeline-period a,
+a[href^="tel"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  pointer-events: none !important;
+}
+
 .timeline-period {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--color-primary);
+  color: var(--color-primary) !important;
   font-weight: 600;
+  -webkit-text-size-adjust: none;
 }
 
 .timeline-company {
@@ -823,6 +837,16 @@ body {
   background: transparent;
   border: none;
   transition: var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.project-row-item:focus {
+  outline: none;
+}
+
+.project-row-item:focus-visible {
+  outline: 2px dashed var(--color-primary);
+  outline-offset: 4px;
 }
 
 .row-header {
@@ -876,7 +900,21 @@ body {
   transform: translateY(-1px);
 }
 
-.project-row-item:hover .row-header h3,
+/* Hover para computadoras de escritorio (con mouse / puntero fino) */
+@media (hover: hover) and (pointer: fine) {
+  .project-row-item:hover .row-header h3 {
+    color: var(--color-primary);
+    transform: translateX(6px);
+  }
+
+  .project-row-item:hover .row-details {
+    max-height: 1200px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estado activo explícito (controlado por tap en celular, click y teclado) */
 .project-row-item.active-row .row-header h3 {
   color: var(--color-primary);
   transform: translateX(6px);
@@ -895,14 +933,12 @@ body {
   overflow: hidden;
   opacity: 0;
   transform: translateY(-8px);
-  transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project-row-item:hover .row-details,
-.project-row-item.active-row .row-details,
-.project-row-item:focus-within .row-details {
+.project-row-item.active-row .row-details {
   max-height: 1200px;
   opacity: 1;
   transform: translateY(0);
@@ -1097,7 +1133,13 @@ body {
   transition: var(--transition-fast);
 }
 
-.project-row-item:hover .row-divider-line,
+@media (hover: hover) and (pointer: fine) {
+  .project-row-item:hover .row-divider-line {
+    background: var(--color-primary);
+    opacity: 0.4;
+  }
+}
+
 .project-row-item.active-row .row-divider-line {
   background: var(--color-primary);
   opacity: 0.4;

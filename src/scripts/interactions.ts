@@ -400,47 +400,68 @@ function setupSpotlightEffect(): void {
 }
 
 /**
- * 6. Handle project list rows details expanding on click or keyboard activation
+ * 6. Handle project list rows details expanding on click or keyboard activation,
+ *    and auto-collapsing on mobile swipe/scroll.
  */
+let activeRowScrollY = 0;
+let touchStartClientY = 0;
+let projectRowGlobalListenersAttached = false;
+
+function collapseAllOpenProjectRows(): void {
+  const openRows = document.querySelectorAll<HTMLElement>('.project-row-item.active-row');
+  openRows.forEach((r) => {
+    r.classList.remove('active-row');
+    r.setAttribute('aria-expanded', 'false');
+    r.blur();
+  });
+}
+
 function setupProjectRowToggles(): void {
   const projectRows = document.querySelectorAll<HTMLElement>('.project-row-item');
+  if (!projectRows.length) return;
+
+  const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const toggleRow = (row: HTMLElement): void => {
     const isActive = row.classList.contains('active-row');
 
-    // Close other rows first
-    projectRows.forEach((r) => {
-      r.classList.remove('active-row');
-      r.setAttribute('aria-expanded', 'false');
-    });
-
-    // Toggle current row
-    if (!isActive) {
+    if (isActive) {
+      // Tap nuevamente: se contrae
+      row.classList.remove('active-row');
+      row.setAttribute('aria-expanded', 'false');
+      row.blur();
+    } else {
+      // Tap: se muestra y se cierran las demás
+      collapseAllOpenProjectRows();
       row.classList.add('active-row');
       row.setAttribute('aria-expanded', 'true');
+      activeRowScrollY = window.scrollY;
     }
   };
 
   projectRows.forEach((row) => {
-    // Navegación fluida por hover (abrir al entrar, contraer al salir)
-    row.addEventListener('mouseenter', () => {
-      projectRows.forEach((r) => {
-        if (r !== row) {
-          r.classList.remove('active-row');
-          r.setAttribute('aria-expanded', 'false');
-        }
+    // En computadoras con mouse (puntero fino), activar con hover suave
+    if (isFinePointer) {
+      row.addEventListener('mouseenter', () => {
+        projectRows.forEach((r) => {
+          if (r !== row) {
+            r.classList.remove('active-row');
+            r.setAttribute('aria-expanded', 'false');
+          }
+        });
+        row.classList.add('active-row');
+        row.setAttribute('aria-expanded', 'true');
       });
-      row.classList.add('active-row');
-      row.setAttribute('aria-expanded', 'true');
-    });
 
-    row.addEventListener('mouseleave', () => {
-      row.classList.remove('active-row');
-      row.setAttribute('aria-expanded', 'false');
-    });
+      row.addEventListener('mouseleave', () => {
+        row.classList.remove('active-row');
+        row.setAttribute('aria-expanded', 'false');
+      });
+    }
 
+    // Tap en celular / Click en desktop para alternar (abrir y cerrar)
     row.addEventListener('click', (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('a')) return;
+      if ((e.target as HTMLElement).closest('a, button')) return;
       toggleRow(row);
     });
 
@@ -451,6 +472,38 @@ function setupProjectRowToggles(): void {
       }
     });
   });
+
+  // Listeners globales para contraer al deslizar o hacer scroll (en celular)
+  if (!projectRowGlobalListenersAttached) {
+    projectRowGlobalListenersAttached = true;
+
+    window.addEventListener('touchstart', (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        touchStartClientY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e: TouchEvent) => {
+      const hasActive = document.querySelector('.project-row-item.active-row');
+      if (!hasActive || e.touches.length === 0) return;
+
+      const currentY = e.touches[0].clientY;
+      // Si el usuario desliza con el dedo más de 30px, contraer
+      if (Math.abs(currentY - touchStartClientY) > 30) {
+        collapseAllOpenProjectRows();
+      }
+    }, { passive: true });
+
+    window.addEventListener('scroll', () => {
+      const hasActive = document.querySelector('.project-row-item.active-row');
+      if (!hasActive) return;
+
+      // Si el usuario scrollea más de 25px desde que se desplegó, contraer
+      if (Math.abs(window.scrollY - activeRowScrollY) > 25) {
+        collapseAllOpenProjectRows();
+      }
+    }, { passive: true });
+  }
 }
 
 /**
