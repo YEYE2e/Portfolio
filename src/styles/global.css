@@ -862,14 +862,67 @@ a[href^="tel"] {
   min-width: 32px;
 }
 
-.row-header h3 {
+.project-title-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+  display: block;
+}
+
+.project-title-link h3 {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 3vw, 1.8rem);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
-  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   transition: var(--transition-fast);
+}
+
+.title-arrow {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Hover en computadoras y focus con teclado */
+@media (hover: hover) and (pointer: fine) {
+  .project-row-item:hover .project-title-link h3 {
+    color: var(--color-primary);
+    transform: translateX(6px);
+  }
+
+  .project-row-item:hover .title-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  .project-row-item:hover .row-divider-line {
+    background: var(--color-primary);
+    opacity: 0.5;
+  }
+}
+
+.project-row-item:focus-within .project-title-link h3 {
+  color: var(--color-primary);
+}
+
+.project-row-item:focus-within .title-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+  .title-arrow {
+    opacity: 0.85;
+    transform: translateX(0);
+    font-size: 1.1rem;
+  }
 }
 
 .row-header-meta {
@@ -900,48 +953,12 @@ a[href^="tel"] {
   transform: translateY(-1px);
 }
 
-/* Hover para computadoras de escritorio (con mouse / puntero fino) */
-@media (hover: hover) and (pointer: fine) {
-  .project-row-item:hover .row-header h3 {
-    color: var(--color-primary);
-    transform: translateX(6px);
-  }
-
-  .project-row-item:hover .row-details {
-    max-height: 1200px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Estado activo explícito (controlado por tap en celular, click y teclado) */
-.project-row-item.active-row .row-header h3 {
-  color: var(--color-primary);
-  transform: translateX(6px);
-}
-
 .project-cat {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.row-details {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-row-item.active-row .row-details {
-  max-height: 1200px;
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .row-details-inner {
