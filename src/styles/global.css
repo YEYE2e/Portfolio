@@ -57,6 +57,18 @@ body {
   transition: var(--transition-smooth);
 }
 
+/* Dynamic Particle Constellation Canvas */
+.particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+}
+
 /* Elegant Interactive Vertical Background Lines */
 .interactive-line-bg {
   position: fixed;
@@ -377,19 +389,21 @@ body {
 }
 
 .clean-trait-row {
+  position: relative;
   display: flex;
   gap: 20px;
   padding: 24px;
   border: 1px solid var(--color-border);
-  background-color: rgba(255, 255, 255, 0.01);
+  background: radial-gradient(350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 245, 160, 0.08), transparent 70%), rgba(255, 255, 255, 0.01);
   border-radius: var(--radius-sm);
-  transition: var(--transition-fast);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
 }
 
 .clean-trait-row:hover {
   border-color: var(--color-border-hover);
-  background-color: rgba(255, 255, 255, 0.03);
   transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .trait-num {
@@ -422,8 +436,11 @@ body {
 }
 
 .project-row-item {
+  position: relative;
   cursor: pointer;
-  padding: 28px 0;
+  padding: 28px 16px;
+  border-radius: var(--radius-sm);
+  background: radial-gradient(400px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 245, 160, 0.05), transparent 70%);
   transition: var(--transition-fast);
 }
 
@@ -624,5 +641,30 @@ body {
 
   .clean-traits-list {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .particle-canvas,
+  .glow-orb {
+    display: none !important;
+  }
+
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
