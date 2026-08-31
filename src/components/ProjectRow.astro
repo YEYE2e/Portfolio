@@ -6,12 +6,13 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <div class="project-row-item" data-project-id={project.id} tabindex="0" role="button" aria-expanded="false">
   <div class="row-header">
     <span class="project-num">{project.number}</span>
-    <h3>{project.title}</h3>
+    <h3 transition:name={`project-title-${project.id}`}>{project.title}</h3>
     <span class="project-cat">{project.category}</span>
   </div>
   <div class="row-details">
@@ -21,6 +22,11 @@ const { project } = Astro.props;
         {project.tags.map(tag => (
           <span>{tag}</span>
         ))}
+      </div>
+      <div class="row-actions">
+        <a href={`${baseUrl}/projects/${project.id}`} class="btn-case-study">
+          Explorar Caso de Estudio <span class="arrow">→</span>
+        </a>
       </div>
     </div>
   </div>

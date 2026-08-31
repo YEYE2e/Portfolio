@@ -1,0 +1,166 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AmbientGlow from '../../components/AmbientGlow.astro';
+import Header from '../../components/Header.astro';
+import { projects } from '../../data/projects';
+import type { Project } from '../../types';
+
+export function getStaticPaths() {
+  return projects.map((project, index) => ({
+    params: { id: project.id },
+    props: {
+      project,
+      prevProject: projects[(index - 1 + projects.length) % projects.length],
+      nextProject: projects[(index + 1) % projects.length]
+    }
+  }));
+}
+
+interface Props {
+  project: Project;
+  prevProject: Project;
+  nextProject: Project;
+}
+
+const { project, prevProject, nextProject } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout title={`${project.title} | Caso de Estudio`} description={project.description}>
+  <AmbientGlow />
+
+  <div id="app" class="app-container">
+    <Header />
+
+    <main class="console-canvas case-study-canvas">
+      <!-- Back Navigation Link -->
+      <nav class="case-nav-top" aria-label="Navegación de retorno">
+        <a href={`${baseUrl}/#projects`} class="back-home-link">
+          <span class="back-arrow">←</span> Volver a Proyectos
+        </a>
+      </nav>
+
+      <!-- Project Hero Header -->
+      <header class="case-header">
+        <div class="case-meta-bar">
+          <span class="case-number">{project.number}</span>
+          <span class="case-category">{project.category}</span>
+          {project.year && <span class="case-year">{project.year}</span>}
+          {project.role && <span class="case-role-badge">{project.role}</span>}
+        </div>
+
+        <h1 class="case-title" transition:name={`project-title-${project.id}`}>
+          {project.title}
+        </h1>
+
+        <p class="case-lead">
+          {project.description}
+        </p>
+
+        <!-- Action Links -->
+        <div class="case-actions">
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Ver Demo en Vivo <span class="btn-icon">↗</span>
+            </a>
+          )}
+          {project.repo && (
+            <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              Repositorio GitHub <span class="btn-icon">↗</span>
+            </a>
+          )}
+        </div>
+      </header>
+
+      <!-- Detailed Content Grid -->
+      <div class="case-content-grid">
+        <!-- Overview & Deep Dive -->
+        {project.longDescription && (
+          <section class="case-section">
+            <h2 class="case-section-title">
+              <span class="sec-dot"></span> Visión General &amp; Alcance
+            </h2>
+            <p class="case-text">{project.longDescription}</p>
+          </section>
+        )}
+
+        <!-- Architecture & Engineering Decisions -->
+        {project.architecture && project.architecture.length > 0 && (
+          <section class="case-section">
+            <h2 class="case-section-title">
+              <span class="sec-dot"></span> Arquitectura &amp; Decisiones Técnicas
+            </h2>
+            <ul class="case-list">
+              {project.architecture.map((item) => (
+                <li>
+                  <span class="list-bullet">▹</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <!-- Key Challenges -->
+        {project.challenges && project.challenges.length > 0 && (
+          <section class="case-section">
+            <h2 class="case-section-title">
+              <span class="sec-dot"></span> Retos de Ingeniería Resueltos
+            </h2>
+            <ul class="case-list">
+              {project.challenges.map((challenge) => (
+                <li>
+                  <span class="list-bullet challenge-bullet">!</span>
+                  <span>{challenge}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <!-- Results & Metrics -->
+        {project.results && project.results.length > 0 && (
+          <section class="case-section results-section">
+            <h2 class="case-section-title">
+              <span class="sec-dot"></span> Impacto &amp; Resultados Clave
+            </h2>
+            <div class="case-results-grid">
+              {project.results.map((result) => (
+                <div class="result-card">
+                  <span class="result-icon">✓</span>
+                  <p>{result}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Technologies Stack -->
+        <section class="case-section">
+          <h2 class="case-section-title">
+            <span class="sec-dot"></span> Stack Tecnológico
+          </h2>
+          <div class="project-tech-list">
+            {project.tags.map((tag) => (
+              <span class="tech-tag">{tag}</span>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Project Pagination Bottom -->
+      <footer class="case-footer-nav">
+        <a href={`${baseUrl}/projects/${prevProject.id}`} class="project-nav-btn prev-btn">
+          <span class="nav-direction">← Proyecto Anterior</span>
+          <span class="nav-title">{prevProject.title}</span>
+        </a>
+        <a href={`${baseUrl}/projects/${nextProject.id}`} class="project-nav-btn next-btn">
+          <span class="nav-direction">Siguiente Proyecto →</span>
+          <span class="nav-title">{nextProject.title}</span>
+        </a>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../../scripts/interactions.ts"></script>
+</Layout>

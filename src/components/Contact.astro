@@ -5,27 +5,86 @@ import { contactLinks } from '../data/contact';
 <section id="contact" class="scroll-section scroll-reveal">
   <div class="contact-clean-layout">
     <div class="section-title-line">
-      <span class="section-tag">// Conexión</span>
-      <h2>Aquí mis canales de contacto</h2>
+      <span class="section-tag">// Conexión &amp; Colaboración</span>
+      <h2>Iniciemos una conversación</h2>
       <div class="title-line"></div>
     </div>
-      
-    <div class="contact-links-grid">
-      {contactLinks.map(link => (
-        <a
-          href={link.href}
-          target={link.external ? '_blank' : undefined}
-          rel={link.external ? 'noopener noreferrer' : undefined}
-          class="contact-link-row"
-        >
-          <span class="row-label">{link.label}</span>
-          <span class="row-value">
-            {link.value}
-            {link.external && <span class="external-arrow" aria-hidden="true"> ↗</span>}
-          </span>
-          <div class="link-hover-line"></div>
-        </a>
-      ))}
+    
+    <div class="contact-split-grid">
+      <!-- Direct Contact Channels -->
+      <div class="contact-links-column">
+        <p class="contact-lead-text">
+          Disponible para proyectos freelance, roles de ingeniería de software o consultas técnicas. Elige el canal que prefieras o envíame un mensaje directo.
+        </p>
+
+        <div class="contact-links-grid">
+          {contactLinks.map(link => (
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class="contact-link-row"
+            >
+              <span class="row-label">{link.label}</span>
+              <span class="row-value">
+                {link.value}
+                {link.external && <span class="external-arrow" aria-hidden="true"> ↗</span>}
+              </span>
+              <div class="link-hover-line"></div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Interactive Contact Form -->
+      <div class="contact-form-column">
+        <form id="contact-form" class="console-form" novalidate>
+          <div class="form-group">
+            <label for="name">Nombre o Empresa <span class="req-mark">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              placeholder="Tu nombre"
+              autocomplete="name"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo Electrónico <span class="req-mark">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="tu@email.com"
+              autocomplete="email"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Mensaje o Detalle del Proyecto <span class="req-mark">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              placeholder="Cuéntame sobre tu proyecto o consulta..."
+              class="form-input form-textarea"
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary submit-btn">
+              Enviar Mensaje <span class="btn-arrow">→</span>
+            </button>
+            <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </section>

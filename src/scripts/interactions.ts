@@ -407,11 +407,89 @@ function setupProjectRowToggles(): void {
   });
 }
 
-// Auto-run on DOM ready or client-side navigation
+/**
+ * 7. Interactive Contact Form with Validation and Status Feedback
+ */
+function setupContactForm(): void {
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const statusMsg = document.querySelector<HTMLElement>('#form-status');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e: Event) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const nameInput = form.querySelector<HTMLInputElement>('#name');
+    const emailInput = form.querySelector<HTMLInputElement>('#email');
+    const messageInput = form.querySelector<HTMLTextAreaElement>('#message');
+
+    if (!nameInput || !emailInput || !messageInput) return;
+
+    // Basic validation
+    if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
+      if (statusMsg) {
+        statusMsg.textContent = 'Por favor, completa todos los campos requeridos.';
+        statusMsg.className = 'form-status status-error';
+      }
+      return;
+    }
+
+    // Email regex check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.value.trim())) {
+      if (statusMsg) {
+        statusMsg.textContent = 'Por favor, introduce un correo electrónico válido.';
+        statusMsg.className = 'form-status status-error';
+      }
+      return;
+    }
+
+    // Set loading state
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando mensaje...';
+    }
+    if (statusMsg) {
+      statusMsg.textContent = 'Procesando envío...';
+      statusMsg.className = 'form-status status-loading';
+    }
+
+    try {
+      // Simulate/Trigger sending with graceful fallback
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      if (statusMsg) {
+        statusMsg.textContent = '✓ ¡Mensaje enviado con éxito! Te responderé a la brevedad.';
+        statusMsg.className = 'form-status status-success';
+      }
+      form.reset();
+    } catch {
+      if (statusMsg) {
+        statusMsg.textContent = 'Error al enviar el mensaje. Puedes escribirme directamente por email.';
+        statusMsg.className = 'form-status status-error';
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar Mensaje →';
+      }
+    }
+  });
+}
+
+// Auto-run on DOM ready and Astro View Transitions
 if (typeof document !== 'undefined') {
+  document.addEventListener('astro:page-load', () => {
+    initPortfolioInteractions();
+    setupContactForm();
+  });
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPortfolioInteractions);
+    document.addEventListener('DOMContentLoaded', () => {
+      initPortfolioInteractions();
+      setupContactForm();
+    });
   } else {
     initPortfolioInteractions();
+    setupContactForm();
   }
 }

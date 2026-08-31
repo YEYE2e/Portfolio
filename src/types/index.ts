@@ -4,7 +4,13 @@ export interface Project {
   title: string;
   category: string;
   description: string;
+  longDescription?: string;
+  role?: string;
+  year?: string;
   tags: string[];
+  challenges?: string[];
+  results?: string[];
+  architecture?: string[];
   link?: string;
   repo?: string;
 }
