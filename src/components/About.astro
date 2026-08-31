@@ -1,23 +1,30 @@
 ---
-import { aboutTraits } from '../data/about';
+import {
+  profileInfo,
+  aboutTraits,
+  experiences,
+  skillCategories,
+  education,
+  certifications
+} from '../data/about';
 ---
 
+<!-- Section 1: Sobre Mí & Pilares -->
 <section id="about" class="scroll-section scroll-reveal">
   <div class="about-clean-layout">
     <div class="section-title-line">
-      <span class="section-tag">// trayectoria</span>
+      <span class="section-tag">// trayectoria &amp; perfil</span>
       <h2>Sobre Mí</h2>
       <div class="title-line"></div>
     </div>
     
     <div class="about-content">
+      <!-- Main Profile Summary -->
       <p class="large-text">
-        Me apasiona convertir ideas complejas en software altamente optimizado, estable y de gran experiencia de usuario.
+        {profileInfo.summary}
       </p>
-      <p class="body-text">
-        Mi enfoque une el desarrollo frontend y backend con prácticas modernas de DevOps. Creo firmemente que el software de calidad no solo debe verse bien, sino estar respaldado por una infraestructura sólida y pruebas automatizadas confiables.
-      </p>
-      
+
+      <!-- Key Pillars / Specialty Focus -->
       <div class="clean-traits-list">
         {aboutTraits.map(trait => (
           <div class="clean-trait-row">
@@ -28,6 +35,109 @@ import { aboutTraits } from '../data/about';
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Habilidades Técnicas -->
+<section id="skills" class="scroll-section scroll-reveal about-subblock-section">
+  <div class="about-clean-layout">
+    <div class="section-title-line">
+      <span class="section-tag">// stack_tecnologico</span>
+      <h2>Habilidades Técnicas</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="skills-grid-container">
+      {skillCategories.map(group => (
+        <div class="skill-category-card">
+          <h4 class="skill-category-name">{group.category}</h4>
+          <div class="skill-tags-wrapper">
+            {group.skills.map(skill => (
+              <span class="skill-badge">{skill}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Experiencia Laboral -->
+<section id="experience" class="scroll-section scroll-reveal about-subblock-section">
+  <div class="about-clean-layout">
+    <div class="section-title-line">
+      <span class="section-tag">// historial_profesional</span>
+      <h2>Experiencia Laboral</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="experience-timeline">
+      {experiences.map(exp => (
+        <div class="timeline-item">
+          <div class="timeline-meta">
+            <span class="timeline-period">{exp.period}</span>
+            <span class="timeline-company">{exp.company}</span>
+          </div>
+          <div class="timeline-content">
+            <h4 class="timeline-role">{exp.role}</h4>
+            <ul class="timeline-highlights">
+              {exp.highlights.map(point => (
+                <li>
+                  <span class="bullet-sym">▹</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Formación & Certificaciones -->
+<section id="education" class="scroll-section scroll-reveal about-subblock-section">
+  <div class="about-clean-layout">
+    <div class="section-title-line">
+      <span class="section-tag">// formacion_y_credenciales</span>
+      <h2>Educación &amp; Certificaciones</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="subblock-split-grid">
+      <!-- Education Column -->
+      <div class="edu-column">
+        <div class="subblock-header">
+          <span class="subblock-tag">// formacion_academica</span>
+          <h3 class="subblock-title">Educación</h3>
+        </div>
+        <div class="edu-card">
+          <div class="edu-period">{education.period}</div>
+          <h4 class="edu-degree">{education.degree}</h4>
+          <p class="edu-institution">{education.institution}</p>
+          <span class="edu-badge">{education.details}</span>
+        </div>
+      </div>
+
+      <!-- Certifications & Languages Column -->
+      <div class="certs-column">
+        <div class="subblock-header">
+          <span class="subblock-tag">// credenciales_oficiales</span>
+          <h3 class="subblock-title">Certificaciones</h3>
+        </div>
+        <div class="certs-list">
+          {certifications.map(cert => (
+            <div class="cert-item">
+              <div class="cert-icon">◈</div>
+              <div class="cert-info">
+                <h4 class="cert-title">{cert.title}</h4>
+                <p class="cert-issuer">{cert.issuer}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </div>

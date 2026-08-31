@@ -1,25 +1,54 @@
 ---
-// Hero presentation section
+import { profileInfo } from '../data/about';
 ---
+
 <section id="home" class="scroll-section scroll-reveal visible section-focused">
   <div class="hero-clean-layout">
-    <div class="hero-main-text">
-      <h1 class="glitch-title">Ingeniero de Software</h1>
-      <p class="subtitle">Desarrollo soluciones robustas de principio a fin</p>
-      <p class="description">
-        Especializado en diseñar, construir e implementar aplicaciones web, móviles y de escritorio. Con un fuerte enfoque en automatización (CI/CD), aseguramiento de calidad (testing) y la gestión del ciclo completo de vida del software.
-      </p>
+    <div class="hero-split-grid">
+      <!-- Left Column: Content -->
+      <div class="hero-main-text">
+        <!-- Location Badge without blinking dot -->
+        <div class="hero-location-badge">
+          <svg class="loc-pin-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>Guayaquil, Ecuador</span>
+        </div>
 
-      <div class="hero-cta-group">
-        <a href="#projects" class="btn btn-primary">Ver Proyectos</a>
-        <a href="#contact" class="btn btn-secondary">Conectar</a>
+        <h1 class="glitch-title">Yan Wei Portero Guzman</h1>
+        <p class="subtitle">Desarrollador de Software &middot; Backend &middot; Cloud &middot; QA</p>
+        <p class="description">
+          {profileInfo.summary}
+        </p>
+
+        <!-- CTA Buttons arranged in exact scroll sequence: 1. Sobre Mí, 2. Proyectos, 3. Conectar -->
+        <div class="hero-cta-group">
+          <a href="#about" class="btn btn-secondary">Sobre Mí &amp; Trayectoria</a>
+          <a href="#projects" class="btn btn-primary">Ver Proyectos</a>
+          <a href="#contact" class="btn btn-secondary">Conectar</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Avatar / Logo (Enlarged & Transparent Dark Lineart) -->
+      <div class="hero-avatar-showcase">
+        <div class="hero-avatar-card">
+          <div class="avatar-glow-backdrop" aria-hidden="true"></div>
+          <img
+            src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/avatar-dark.png`}
+            alt="Avatar de Yan Wei Portero Guzman"
+            class="hero-avatar-img-large"
+            width="280"
+            height="280"
+            loading="eager"
+          />
+        </div>
       </div>
     </div>
 
     <!-- Subtle Dynamic Line Decorator -->
     <div class="hero-line-decorator" aria-hidden="true">
       <div class="deco-line"></div>
-      <span class="deco-label">SYS_CHECK_PASS</span>
     </div>
   </div>
 </section>

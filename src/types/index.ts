@@ -21,6 +21,30 @@ export interface Trait {
   description: string;
 }
 
+export interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  highlights: string[];
+}
+
+export interface SkillCategory {
+  category: string;
+  skills: string[];
+}
+
+export interface EducationItem {
+  degree: string;
+  institution: string;
+  period: string;
+  details: string;
+}
+
+export interface CertificationItem {
+  title: string;
+  issuer: string;
+}
+
 export interface ContactLink {
   label: string;
   value: string;
@@ -32,3 +56,4 @@ export interface NavItem {
   label: string;
   href: string;
 }
+

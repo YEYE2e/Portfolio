@@ -422,7 +422,27 @@ function setupProjectRowToggles(): void {
   };
 
   projectRows.forEach((row) => {
-    row.addEventListener('click', () => toggleRow(row));
+    // Navegación fluida por hover (abrir al entrar, contraer al salir)
+    row.addEventListener('mouseenter', () => {
+      projectRows.forEach((r) => {
+        if (r !== row) {
+          r.classList.remove('active-row');
+          r.setAttribute('aria-expanded', 'false');
+        }
+      });
+      row.classList.add('active-row');
+      row.setAttribute('aria-expanded', 'true');
+    });
+
+    row.addEventListener('mouseleave', () => {
+      row.classList.remove('active-row');
+      row.setAttribute('aria-expanded', 'false');
+    });
+
+    row.addEventListener('click', (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest('a')) return;
+      toggleRow(row);
+    });
 
     row.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
