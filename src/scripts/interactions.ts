@@ -11,7 +11,7 @@
 
 export function initPortfolioInteractions(): void {
   setupScrollReveal();
-  setupNavigationAndHeader();
+  setupSectionFocus();
   setupInteractiveGlowAndLines();
   setupProjectRowToggles();
   setupSpotlightEffect();
@@ -266,53 +266,79 @@ function setupScrollReveal(): void {
 }
 
 /**
- * 3. Autohiding header and navigation scroll-spy
+ * 3. Dynamic Section Focus & Defocus (Spotlight Effect)
+ * Keeps the section currently at reading eye-level fully sharp and focused,
+ * while smoothly dimming and blurring non-active sections.
  */
-function setupNavigationAndHeader(): void {
-  const header = document.querySelector<HTMLElement>('.console-header');
-  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link');
+function setupSectionFocus(): void {
   const sections = document.querySelectorAll<HTMLElement>('.scroll-section');
+  if (!sections.length) return;
 
-  if (!header || !navLinks.length || !sections.length) return;
+  // Respect reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sections.forEach((section) => {
+      section.classList.add('visible', 'section-focused');
+      section.classList.remove('section-dimmed');
+    });
+    return;
+  }
 
-  let lastScrollY = window.scrollY;
+  let ticking = false;
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      const currentScrollY = window.scrollY;
+  function updateSectionFocus(): void {
+    const viewportHeight = window.innerHeight;
+    // Reading focal line: 45% of viewport height (natural reading eye-level)
+    const focalLine = viewportHeight * 0.45;
 
-      // Autohide header on scroll down, show on scroll up
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        header.classList.add('header-hidden');
+    let closestSection: HTMLElement | null = null;
+    let minDistance = Infinity;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+
+      let distance: number;
+      if (rect.top <= focalLine && rect.bottom >= focalLine) {
+        // Section currently covers the focal reading line
+        distance = 0;
+      } else if (rect.top > focalLine) {
+        distance = rect.top - focalLine;
       } else {
-        header.classList.remove('header-hidden');
+        distance = focalLine - rect.bottom;
       }
-      lastScrollY = currentScrollY;
 
-      // Scroll Spy active section
-      let activeSectionId = '';
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestSection = section;
+      }
+    });
+
+    if (closestSection) {
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 180;
-        const sectionHeight = section.offsetHeight;
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-          activeSectionId = section.getAttribute('id') || '';
+        if (section === closestSection) {
+          section.classList.add('visible', 'section-focused');
+          section.classList.remove('section-dimmed');
+        } else {
+          section.classList.remove('section-focused');
+          section.classList.add('section-dimmed');
         }
       });
+    }
 
-      if (activeSectionId) {
-        navLinks.forEach((link) => {
-          const targetHref = link.getAttribute('href')?.replace('#', '');
-          if (targetHref === activeSectionId) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
-      }
-    },
-    { passive: true }
-  );
+    ticking = false;
+  }
+
+  function onScrollOrResize(): void {
+    if (!ticking) {
+      requestAnimationFrame(updateSectionFocus);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScrollOrResize, { passive: true });
+  window.addEventListener('resize', onScrollOrResize, { passive: true });
+
+  // Initial calculation on load
+  updateSectionFocus();
 }
 
 /**

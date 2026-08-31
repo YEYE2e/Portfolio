@@ -198,25 +198,55 @@ body {
    Scrollable Canvas Flow
    ========================================================================== */
 .console-canvas {
-  margin-top: 140px;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   gap: 160px;
   padding-bottom: 120px;
 }
 
-/* Scroll reveal motion with zoom & fade */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  filter: blur(4px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+/* ==========================================================================
+   Section Scroll Reveal & Focus Spotlight
+   ========================================================================== */
+.scroll-section {
+  position: relative;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform, filter;
 }
 
-.scroll-reveal.visible {
+/* Scroll reveal initial state for unrevealed elements */
+.scroll-reveal:not(.visible) {
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+  filter: blur(5px);
+}
+
+/* Focused section in viewport */
+.scroll-section.section-focused {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Dimmed & blurred inactive sections */
+.scroll-section.section-dimmed {
+  opacity: 0.24;
+  filter: blur(3.5px);
+  transform: scale(0.98);
+}
+
+/* Hover over dimmed section allows quick interactive preview */
+.scroll-section.section-dimmed:hover {
+  opacity: 0.75;
+  filter: blur(0px);
+  transform: scale(0.995);
+}
+
+/* Generic visible fallback for non-section scroll-reveal elements */
+.scroll-reveal.visible:not(.scroll-section) {
   opacity: 1;
   transform: translateY(0) scale(1);
   filter: blur(0px);
@@ -747,7 +777,7 @@ body {
    Case Study Pages
    ========================================================================== */
 .case-study-canvas {
-  margin-top: 100px;
+  margin-top: 48px;
   gap: 60px;
 }
 
@@ -1045,7 +1075,8 @@ body {
     display: none !important;
   }
 
-  .scroll-reveal {
+  .scroll-reveal,
+  .scroll-section {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;

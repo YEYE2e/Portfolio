@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AmbientGlow from '../../components/AmbientGlow.astro';
-import Header from '../../components/Header.astro';
 import { projects } from '../../data/projects';
 import type { Project } from '../../types';
 
@@ -30,8 +29,6 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
   <AmbientGlow />
 
   <div id="app" class="app-container">
-    <Header />
-
     <main class="console-canvas case-study-canvas">
       <!-- Back Navigation Link -->
       <nav class="case-nav-top" aria-label="Navegación de retorno">
