@@ -384,7 +384,7 @@ function setupInteractiveGlowAndLines(): void {
  * 5. Card Spotlight Micro-interaction
  */
 function setupSpotlightEffect(): void {
-  const cards = document.querySelectorAll<HTMLElement>('.clean-trait-row, .project-row-item');
+  const cards = document.querySelectorAll<HTMLElement>('.clean-trait-row');
   if (!cards.length) return;
 
   cards.forEach((card) => {

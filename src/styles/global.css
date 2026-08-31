@@ -819,9 +819,9 @@ body {
 .project-row-item {
   position: relative;
   cursor: pointer;
-  padding: 28px 16px;
-  border-radius: var(--radius-sm);
-  background: radial-gradient(400px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 245, 160, 0.05), transparent 70%);
+  padding: 24px 0;
+  background: transparent;
+  border: none;
   transition: var(--transition-fast);
 }
 
@@ -909,7 +909,7 @@ body {
 }
 
 .row-details-inner {
-  padding: 12px 0 8px 56px;
+  padding: 12px 0 8px 0;
 }
 
 @media (max-width: 768px) {
@@ -919,13 +919,11 @@ body {
 }
 
 .project-quick-box {
-  margin-top: 12px;
-  padding: 24px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(0, 245, 160, 0.22);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(0, 245, 160, 0.03);
-  backdrop-filter: blur(10px);
+  margin-top: 14px;
+  padding: 12px 0 16px 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .quick-meta-bar {
@@ -1574,11 +1572,11 @@ body {
    ========================================================================== */
 @media (max-width: 768px) {
   .app-container {
-    padding: 0 20px;
+    padding: 0 18px;
   }
 
   .console-header {
-    padding: 18px 20px;
+    padding: 16px 18px;
   }
 
   .system-status {
@@ -1586,33 +1584,184 @@ body {
   }
 
   .console-canvas {
-    margin-top: 110px;
-    gap: 100px;
+    margin-top: 36px;
+    gap: 80px;
+    padding-bottom: 80px;
+  }
+
+  /* Sección atenuada en móvil más cómoda y ligera */
+  .scroll-section.section-dimmed {
+    opacity: 0.38;
+    filter: blur(1.5px);
+    transform: none;
+  }
+
+  /* Hero adaptativo para celulares */
+  .hero-clean-layout {
+    min-height: auto;
+    padding: 20px 0 24px 0;
+  }
+
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .hero-avatar-showcase {
+    order: -1;
+    justify-content: center;
+    margin-bottom: 6px;
+  }
+
+  .hero-avatar-card {
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .hero-avatar-img-large {
+    width: 145px;
+    height: 145px;
+  }
+
+  .avatar-glow-backdrop {
+    width: 130px;
+    height: 130px;
+    filter: blur(22px);
+  }
+
+  .glitch-title {
+    font-size: clamp(2.1rem, 8.5vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+
+  .description {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    margin-bottom: 26px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+    font-size: 0.85rem;
+  }
+
+  /* Sobre Mí, Habilidades, Experiencia y Educación en móvil */
+  .clean-traits-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .clean-trait-row {
+    padding: 18px 16px;
+  }
+
+  .skills-grid-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .skill-category-card {
+    padding: 18px 16px;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px 16px;
+  }
+
+  .subblock-split-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .edu-card {
+    padding: 20px 16px;
+  }
+
+  .certs-list {
+    gap: 12px;
+  }
+
+  .cert-item {
+    padding: 14px 16px;
+  }
+
+  /* Filas de Proyectos en móvil */
+  .project-row-item {
+    padding: 20px 0;
+    background: transparent;
+    border: none;
   }
 
   .row-header {
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .row-header-meta {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
   }
 
   .row-details-inner {
     padding-left: 0;
   }
 
-  .hero-cta-group {
+  .project-quick-box {
+    padding: 18px 14px;
+  }
+
+  .quick-highlights-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .quick-actions-bar {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
 
-  .clean-traits-list {
-    grid-template-columns: 1fr;
+  .quick-actions-bar .btn-quick-gh,
+  .quick-actions-bar .btn-quick-case {
+    width: 100%;
+    justify-content: center;
   }
 
+  /* Contacto en móvil */
   .contact-split-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 36px;
   }
 
+  .contact-link-row {
+    padding: 14px 0;
+  }
+
+  .row-value {
+    font-size: 1rem;
+  }
+
+  /* Footer en páginas individuales de caso de estudio */
   .case-footer-nav {
     flex-direction: column;
   }
