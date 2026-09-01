@@ -39,6 +39,11 @@ import { contactLinks } from '../data/contact';
       <!-- Interactive Contact Form -->
       <div class="contact-form-column">
         <form id="contact-form" class="console-form" novalidate>
+          <input type="hidden" name="access_key" value="e1fa1122-c293-4155-a801-a0ae93d28601" />
+          <input type="hidden" name="subject" value="Nuevo mensaje de contacto desde tu Portfolio" />
+          <input type="hidden" name="from_name" value="Portfolio - Yan Carlos" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
           <div class="form-group">
             <label for="name">Nombre o Empresa <span class="req-mark">*</span></label>
             <input

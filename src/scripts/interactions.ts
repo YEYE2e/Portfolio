@@ -484,14 +484,27 @@ function setupContactForm(): void {
     }
 
     try {
-      // Simulate/Trigger sending with graceful fallback
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const formData = new FormData(form);
 
-      if (statusMsg) {
-        statusMsg.textContent = '✓ ¡Mensaje enviado con éxito! Te responderé a la brevedad.';
-        statusMsg.className = 'form-status status-success';
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        if (statusMsg) {
+          statusMsg.textContent = '✓ ¡Mensaje enviado con éxito! Te responderé a la brevedad.';
+          statusMsg.className = 'form-status status-success';
+        }
+        form.reset();
+      } else {
+        throw new Error(data.message || 'Error en el servidor');
       }
-      form.reset();
     } catch {
       if (statusMsg) {
         statusMsg.textContent = 'Error al enviar el mensaje. Puedes escribirme directamente por email.';
