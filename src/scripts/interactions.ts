@@ -445,8 +445,16 @@ function setupContactForm(): void {
   const statusMsg = document.querySelector<HTMLElement>('#form-status');
   if (!form) return;
 
+  // Evitar adjuntar múltiples listeners al mismo formulario
+  if (form.dataset.listenerAttached === 'true') return;
+  form.dataset.listenerAttached = 'true';
+
+  let isSubmitting = false;
+
   form.addEventListener('submit', async (e: Event) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const nameInput = form.querySelector<HTMLInputElement>('#name');
     const emailInput = form.querySelector<HTMLInputElement>('#email');
@@ -474,6 +482,7 @@ function setupContactForm(): void {
     }
 
     // Set loading state
+    isSubmitting = true;
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando mensaje...';
@@ -511,6 +520,7 @@ function setupContactForm(): void {
         statusMsg.className = 'form-status status-error';
       }
     } finally {
+      isSubmitting = false;
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar Mensaje →';
@@ -525,14 +535,4 @@ if (typeof document !== 'undefined') {
     initPortfolioInteractions();
     setupContactForm();
   });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initPortfolioInteractions();
-      setupContactForm();
-    });
-  } else {
-    initPortfolioInteractions();
-    setupContactForm();
-  }
 }
