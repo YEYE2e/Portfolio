@@ -10,6 +10,7 @@ const {
 } = Astro.props;
 
 import '../styles/global.css';
+import '../styles/personal.css';
 import { ClientRouter } from 'astro:transitions';
 ---
 
@@ -39,6 +40,17 @@ import { ClientRouter } from 'astro:transitions';
   />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <header class="site-header">
+    <a class="personal-brand" href={`${import.meta.env.BASE_URL}#home`} aria-label="Yan Wei, inicio">yw<span>.</span></a>
+    <nav aria-label="Navegación principal">
+      <a href={`${import.meta.env.BASE_URL}#projects`} data-section="projects">Proyectos</a>
+      <a href={`${import.meta.env.BASE_URL}#about`} data-section="about">Sobre mí</a>
+      <a href={`${import.meta.env.BASE_URL}#experience`} data-section="experience">Trayectoria</a>
+      <a href={`${import.meta.env.BASE_URL}#contact`} data-section="contact">Hablemos ↗</a>
+    </nav>
+  </header>
   <slot />
+  <footer class="site-footer"><span>Yan Wei Portero Guzmán · Guayaquil, Ecuador</span><a href={`${import.meta.env.BASE_URL}#home`}>Volver arriba ↑</a></footer>
 </body>
 </html>

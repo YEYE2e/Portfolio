@@ -12,6 +12,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 <div
   class="project-row-item"
   data-project-id={project.id}
+  data-search={`${project.title} ${project.category} ${project.tags.join(" ")}`}
   data-case-url={`${baseUrl}/projects/${project.id}`}
   role="article"
 >
@@ -50,5 +51,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     </div>
   </div>
 
+  <p class="project-description">{project.description}</p>
+  <div class="project-tech-list">{project.tags.map(tag => <span class="tech-badge">{tag}</span>)}</div>
+  <a class="project-case-link" href={`${baseUrl}/projects/${project.id}`}>Explorar caso de estudio <span aria-hidden="true">↗</span></a>
   <div class="row-divider-line"></div>
 </div>

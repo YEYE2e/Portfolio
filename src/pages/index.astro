@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AmbientGlow from '../components/AmbientGlow.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
 import Projects from '../components/Projects.astro';
@@ -9,15 +8,15 @@ import Contact from '../components/Contact.astro';
 
 <Layout>
   <!-- Ambient background lighting and interactive lines -->
-  <AmbientGlow />
+
 
   <!-- Main Application Wrapper -->
   <div id="app" class="app-container">
     <!-- Scrollable Content Canvas -->
-    <main class="console-canvas scroll-flow">
+    <main id="main-content" tabindex="-1" class="console-canvas scroll-flow">
       <Hero />
-      <About />
       <Projects />
+      <About />
       <Contact />
     </main>
   </div>
