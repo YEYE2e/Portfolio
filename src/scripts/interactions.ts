@@ -34,7 +34,49 @@ function initPortfolioInteractions(): void {
   };
   window.addEventListener('scroll', updateNav, { passive: true, signal });
   updateNav();
-  cleanup = () => controller.abort();
+  // Enhance pointer-capable devices without affecting keyboard or touch navigation.
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  rows.forEach(row => {
+    row.addEventListener('pointermove', event => {
+      if (motionPreference.matches || !finePointer.matches) return;
+      const rect = row.getBoundingClientRect();
+      row.style.setProperty('--pointer-x', `${event.clientX - rect.left}px`);
+      row.style.setProperty('--pointer-y', `${event.clientY - rect.top}px`);
+      row.dataset.pointerActive = 'true';
+    }, { passive: true, signal });
+    row.addEventListener('pointerleave', () => {
+      delete row.dataset.pointerActive;
+    }, { signal });
+  });
+
+  // Animate only as content enters the viewport; it stays readable if JS is unavailable.
+  const animations = new Set<Animation>();
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      if (motionPreference.matches) return;
+      const animation = (entry.target as HTMLElement).animate(
+        [{ opacity: 0.7, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }],
+        { duration: 480, easing: 'cubic-bezier(.2,.7,.2,1)' }
+      );
+      animations.add(animation);
+      animation.finished.catch(() => {}).finally(() => animations.delete(animation));
+    });
+  }, { threshold: 0.1 });
+  sections.filter(section => section.id !== 'home').forEach(section => observer.observe(section));
+  motionPreference.addEventListener('change', () => {
+    if (motionPreference.matches) {
+      animations.forEach(animation => animation.cancel());
+      rows.forEach(row => delete row.dataset.pointerActive);
+    }
+  }, { signal });
+  cleanup = () => {
+    controller.abort();
+    observer.disconnect();
+    animations.forEach(animation => animation.cancel());
+  };
   setupContactForm();
 }
 
