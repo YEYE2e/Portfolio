@@ -11,8 +11,14 @@ import ProjectRow from './ProjectRow.astro';
       <div class="title-line"></div>
     </div>
 
-    <!-- Typographic Row Projects -->
-    <div class="projects-rows-list">
+    <p class="section-intro">Ideas llevadas a código. Explora las decisiones, los retos y las tecnologías de cada proyecto.</p>
+    <div class="project-tools" hidden>
+      <label for="project-search">Encuentra un proyecto</label>
+      <input id="project-search" type="search" placeholder="Busca por nombre o tecnología…" aria-controls="project-list" />
+      <p id="project-count" role="status" aria-live="polite"></p>
+    </div>
+    <p id="project-empty" hidden>No encontré proyectos con esa búsqueda. Prueba con Python, Java o React.</p>
+    <div class="projects-rows-list" id="project-list">
       {projects.map(project => (
         <ProjectRow project={project} />
       ))}
